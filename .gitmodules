@@ -1,0 +1,3 @@
+[submodule "3dparty/ntio_sockets"]
+	path = 3dparty/ntio_sockets
+	url = https://github.com/NoThreadsIO/ntio_sockets.git

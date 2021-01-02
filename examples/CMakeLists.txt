@@ -1,0 +1,2 @@
+add_executable(mqtt_client mqtt_client.cc)
+target_link_libraries(mqtt_client ntio_mqtt)
