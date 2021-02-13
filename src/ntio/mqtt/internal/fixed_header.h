@@ -5,10 +5,10 @@
 #ifndef NTIO_MQTT_FIXED_HEADER_H
 #define NTIO_MQTT_FIXED_HEADER_H
 
-#include <ntio/core/buffer.h>
-
 #include <cstddef>
+#include <ostream>
 
+#include "ntio/mqtt/internal/types.h"
 #include "ntio/mqtt/internal/variable_byte_integer.h"
 
 namespace ntio::mqtt::internal {
@@ -20,9 +20,17 @@ enum ControlPacketType : uint8_t {
 
 class FixedHeader {
  public:
+  FixedHeader() = default;
   FixedHeader(ControlPacketType type, int flags, size_t remaining_length);
 
-  friend core::Buffer& operator<<(core::Buffer& buf, const FixedHeader& header);
+  friend Buffer& operator<<(Buffer& buf, const FixedHeader& header);
+  friend Buffer& operator>>(Buffer& buf, FixedHeader& header);
+
+  [[nodiscard]] ControlPacketType type() const;
+  [[nodiscard]] int flags() const;
+  [[nodiscard]] int remaining_length() const;
+
+  friend std::ostream& operator<<(std::ostream& os, const FixedHeader& header);
 
  private:
   ControlPacketType type_;

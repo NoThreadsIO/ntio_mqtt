@@ -17,7 +17,7 @@ class MqttClient::Impl {
   Impl() : socket(){};
 
   AsyncConnect Connect(sockets::EndPoint end_point, std::string client_id) const noexcept {
-    return AsyncConnect(std::move(end_point), &socket);
+    return AsyncConnect(std::move(end_point), &socket, std::move(client_id));
   }
 
  private:

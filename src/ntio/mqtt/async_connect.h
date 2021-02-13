@@ -16,14 +16,14 @@ namespace ntio::mqtt {
 
 class AsyncConnect {
  public:
-  AsyncConnect(sockets::EndPoint end_point, const sockets::TcpSocket* socket);
+  AsyncConnect(sockets::EndPoint end_point, const sockets::TcpSocket* socket, std::string client_id);
 
   struct Awaiter {
     explicit Awaiter(AsyncConnect *owner);
 
     bool await_ready() noexcept;
     void await_suspend(std::coroutine_handle<> handle) noexcept;
-    core::Task<core::Error> await_resume() noexcept;
+    core::Task<core::Error> await_resume() const noexcept;
 
     AsyncConnect* owner;
   };
@@ -33,6 +33,7 @@ class AsyncConnect {
  private:
   sockets::AsyncConnect connect_task_;
   const sockets::TcpSocket* socket_;
+  std::string client_id_;
 };
 }  // namespace ntio::mqtt
 #endif  // NTIO_MQTT_ASYNC_CONNECT_H

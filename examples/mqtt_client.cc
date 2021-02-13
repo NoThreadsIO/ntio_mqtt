@@ -14,11 +14,12 @@ Task MqttConnect() {
   using ntio::sockets::EndPoint;
 
   MqttClient mqtt_client;
-  auto err = co_await mqtt_client.Connect(EndPoint("127.0.0.1", 1883), "test_client");
+  auto err = co_await mqtt_client.Connect(EndPoint("172.23.0.3", 1883), "test_client");
   co_return err;
 }
 
 int main() {
-  MqttConnect();
+  auto err = MqttConnect();
+  LOG_INFO("Res:" << err);
   return 0;
 }

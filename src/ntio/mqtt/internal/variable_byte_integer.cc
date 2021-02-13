@@ -9,7 +9,7 @@ VariableByteInteger::VariableByteInteger(int value) : value_(value) {}
 
 VariableByteInteger::operator int() const { return value_; }
 
-core::Buffer& operator<<(core::Buffer& buffer, const VariableByteInteger& integer) {
+Buffer& operator<<(Buffer& buffer, const VariableByteInteger& integer) {
   auto val = static_cast<const int>(integer);
   do {
     auto encoded_byte = static_cast<uint8_t>(val % 128);
@@ -19,6 +19,19 @@ core::Buffer& operator<<(core::Buffer& buffer, const VariableByteInteger& intege
     }
     buffer << encoded_byte;
   } while (val > 0);
+
+  return buffer;
+}
+Buffer& operator>>(Buffer& buffer, VariableByteInteger& integer) {
+  int multiplier = 1;
+  integer.value_ = 0;
+  uint8_t byte;
+  do {
+    buffer >> byte;
+    integer.value_ += (byte & 127) * multiplier;
+    multiplier *= 128;
+  } while ((byte & 128) != 0);
+
   return buffer;
 }
 

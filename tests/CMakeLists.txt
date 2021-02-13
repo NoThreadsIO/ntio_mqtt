@@ -8,6 +8,7 @@ FetchContent_MakeAvailable(Catch2)
 
 set(SOURCE_FILES
         ntio/mqtt/internal/fixed_header_test.cc
+        ntio/mqtt/internal/utf_string_test.cc
         ntio/mqtt/internal/variable_byte_integer_test.cc
         main.cc)
 

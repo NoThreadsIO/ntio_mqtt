@@ -1,0 +1,39 @@
+version: '3'
+services:
+  #  test:
+  #    build: .
+  #    command: tests/ntio_sockets_test
+
+  gdb_server:
+    build: docker/gdb_server
+    ports:
+      - "7773:22"
+    networks:
+      net:
+        ipv4_address: 172.23.0.2
+
+  mqtt_broker:
+    build: docker/mqtt_broker
+    networks:
+      net:
+        ipv4_address: 172.23.0.3
+    ports:
+      - "1883:1883"
+
+  cpplint_src:
+    build: docker/cpplint
+    command: bash -c "find src/ -name "*.cc" -o -name "*.h"  | xargs cpplint.py"
+    volumes:
+      - .:/app/
+
+  cpplint_examples:
+    build: docker/cpplint
+    command: bash -c "find examples/ -name "*.cc" -o -name "*.h"  | xargs cpplint.py"
+    volumes:
+      - .:/app/
+
+networks:
+  net:
+    ipam:
+      config:
+        - subnet: 172.23.0.0/24

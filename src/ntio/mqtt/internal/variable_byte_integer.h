@@ -5,14 +5,18 @@
 #ifndef NTIO_MQTT_VARIABLE_BYTE_INTEGER_H
 #define NTIO_MQTT_VARIABLE_BYTE_INTEGER_H
 
-#include <ntio/core/buffer.h>
+#include "ntio/mqtt/internal/types.h"
 
 namespace ntio::mqtt::internal {
 class VariableByteInteger {
  public:
+
+  VariableByteInteger() = default;
+
   explicit VariableByteInteger(int value);
-  friend core::Buffer& operator << (core::Buffer& buffer, const VariableByteInteger& integer);
-  explicit operator int() const;
+  friend Buffer& operator << (Buffer& buffer, const VariableByteInteger& integer);
+  friend Buffer& operator >> (Buffer& buffer, VariableByteInteger& integer);
+  operator int() const;
  private:
   int value_;
 };
